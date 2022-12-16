@@ -5,6 +5,9 @@ from geopy.geocoders import Nominatim
 import json
 
 
+from project_python.banki_spider.main import get_banks
+
+
 geolocator = Nominatim(user_agent="my_request")
 
 all_pages = ['1-100', '101-200', '201-300', '301-500',
@@ -23,7 +26,7 @@ def flats_to_map(pages):
         flats = json.load(f)
 
     for flat in flats:
-        string = flat['title'] + '\n' + flat['cost'] + '\n' + flat['address'][0]
+        string = get_banks(5_000_000, 3_000_000, 0, 'new', 30_000)
         html = string.replace('\n', '<br>').replace('\t', 'nbsp;')
 
         folium.Marker(
