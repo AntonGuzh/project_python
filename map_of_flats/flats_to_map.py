@@ -5,15 +5,12 @@ from geopy.geocoders import Nominatim
 import json
 
 
-from project_python.banki_spider.main import get_banks
-
-
 geolocator = Nominatim(user_agent="my_request")
 
 all_pages = ['1-100', '101-200', '201-300', '301-500',
              '501-700', '701-800', '801-1000', '1001-1200', '1201-1300']
 start = 'flats'
-def flats_to_map(pages):
+def flats_to_map(pages, lst):
 
     map = folium.Map(
         location=[55.753300, 37.624239],  # широта и долгота России
@@ -26,15 +23,17 @@ def flats_to_map(pages):
         flats = json.load(f)
 
     for flat in flats:
-        string = get_banks(5_000_000, 3_000_000, 0, 'new', 30_000)
-        html = string.replace('\n', '<br>').replace('\t', 'nbsp;')
+        string = flat['title'] + '\n' + flat['cost'] + '\n' + flat['address'][0]
+        popup_t = f'<a href="/mortgage/{flat["cost"]}">{string}</a>'
+        test = folium.Html(popup_t, script=True)
+
 
         folium.Marker(
             location=flat['coordinates'],
-            popup=string,
+            popup=folium.Popup(test, min_width=150, max_width=500),
         ).add_to(mCluster)
 
     map.save(r'map.html')
-    #webbrowser.open('map.html')
+    # webbrowser.open('map.html')
 
-#flats_to_map('1-100')
+flats_to_map('1-100', [1])

@@ -20,6 +20,7 @@ def GetBanks():
 class BankiSpiderPipeline:
     def open_spider(self, spider):
         BANKS = []
+        print('start_spider')
 
     def process_item(self, item, spider):
         bank_item = Bank(
@@ -30,4 +31,5 @@ class BankiSpiderPipeline:
             item['period'] * 12 * int(item['payment'].replace(' ', ''))
         )
         BANKS.append(bank_item)
+        print('proccess')
         return item
