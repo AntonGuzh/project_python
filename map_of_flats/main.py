@@ -1,27 +1,22 @@
 # -*- coding: utf-8 -*-
-import dash_leaflet as dl
-from dash import Dash, dcc, html, Input, Output, State
+from dash import Dash, dcc, html, Input, Output
 from flats_to_map import flats_to_map
-from dash_bootstrap_templates import load_figure_template
 import dash_bootstrap_components as dbc
 
-from project_python.banki_spider.main import get_banks
+from project_python.banki_parser.start_scrapper import get_banks
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
 server = app.server
 
 ALLOWED_CHOICE = (
-    "initialFee", "salary", "Are You have child birthed before 2018?"
+    "initialFee", "salary"
 )
 button = html.Div(
     [
         dcc.Input(id="fee", type="number", placeholder="initialFee"),
         dcc.Input(
             id="salary", type="number", placeholder="salary",
-        ),
-        dcc.Input(
-            id="is_have_child_before_2018", type="bool", placeholder="Are You have child birthed before 2018?",
         ),
         html.Hr(),
         html.Div(id="number-out"),
@@ -53,13 +48,11 @@ PAYLOAD = {
     Output("number-out", "children"),
     Input("fee", "value"),
     Input("salary", "value"),
-    Input("is_have_child_before_2018", "value"),
 )
-def number_render(fee, salary, is_have_child_before_2018):
-    PAYLOAD['fee'] = fee
-    PAYLOAD['salary'] = salary
-    PAYLOAD['child'] = is_have_child_before_2018
-    return "initialFee: {}, salary: {}, child: {}".format(fee, salary, is_have_child_before_2018)
+def number_render(fee, salary):
+    PAYLOAD['fee'] = int(fee)
+    PAYLOAD['salary'] = int(salary)
+    return "initialFee: {}, salary: {}".format(fee, salary)
 
 
 @app.callback(

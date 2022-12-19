@@ -10,6 +10,8 @@ geolocator = Nominatim(user_agent="my_request")
 all_pages = ['1-100', '101-200', '201-300', '301-500',
              '501-700', '701-800', '801-1000', '1001-1200', '1201-1300']
 start = 'flats'
+
+
 def flats_to_map(pages, lst):
 
     map = folium.Map(
@@ -18,6 +20,7 @@ def flats_to_map(pages, lst):
     )
     start = './flats/flats'
     mCluster = MarkerCluster(name='Marker').add_to(map)
+
     result = start + pages + '.json'
     with open(result) as f:
         flats = json.load(f)

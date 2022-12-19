@@ -1,0 +1,14 @@
+<header><meta charset=UTF-8"></header>
+<body>
+  <ul>
+    {% for bank in banks %}
+    <li>
+      <h3>{{ bank['bank'] }}</h3>
+      <p><b>Период</b>: {{ bank['period'] }}</p>
+      <p><b>Ставка</b>: {{ bank['mortgage_rate'] }} %</p>
+      <p><b>Плата</b>: {{ bank['payment_per_mouth'] }} ₽</p>
+      <p><b>Сумма переплаты</b>: {{ bank['overpayment'] }} ₽</p>
+    </li>
+    {% endfor %}
+  </ul>
+</body>
