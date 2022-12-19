@@ -30,7 +30,7 @@ def read(price, initial_fee, child, purpose_type):
     payload = {
         'initialFee': initial_fee,  # первоначальный взнос
         'price': price,  # цена жилья
-        'isHaveChildBefore2018': 1 if child else 0,  # имеется ли ребенок рожденный после 2018
+        'isHaveChildBefore2018': 0 if child == 0 else 1,  # имеется ли ребенок рожденный после 2018
         'purposeIds[]': 2 if purpose_type == 'new' else 1,
         'specialProgramIds[]': -1,
     }
@@ -44,7 +44,6 @@ def read(price, initial_fee, child, purpose_type):
             item = dict()
             item['bank'] = bank_items[i].contents[0]
             item['mortgage_rate'] = float(bank_items[i + 1].contents[0].replace(' %', '').replace(',', '.'))
-            print(item['mortgage_rate'])
             item['payment_per_mouth'] = int(bank_items[i + 2].contents[0].replace(' ', '').replace('₽', ''))
             item['period'] = PERIODS[url2dict(url)['period']]
             item['overpayment'] = item['payment_per_mouth'] * 12 * item['period'] + initial_fee - price

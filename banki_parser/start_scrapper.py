@@ -1,10 +1,9 @@
 import jinja2
-from project_python.map_of_flats import read
+from project_python.banki_parser.bs4_parser import read
 
 
 def get_banks(price, initial_fee, is_have_child_before_2018, purpose_type, max_payment: int):
     banks = []
-    print('aaaaa')
 
     for bank in read(price, initial_fee, is_have_child_before_2018, purpose_type):
         if bank['payment_per_mouth'] <= max_payment:
@@ -16,7 +15,6 @@ def get_banks(price, initial_fee, is_have_child_before_2018, purpose_type, max_p
     template = jinja2.Environment(loader=jinja2.FileSystemLoader("../map_of_flats")).from_string(template_str)
     html_str = template.render(banks=banks)
 
-    print('exit from spider')
     return html_str
 
 
